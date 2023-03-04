@@ -1,11 +1,11 @@
 import {
-    ADD_COUNTER,
+    ADD_COUNTER, ADD_TASK,
     CHANGE_COLOR,
     DECREMENT, FETCH_COUNTER_ERROR,
     FETCH_COUNTER_REQUEST,
-    FETCH_COUNTER_SUCCESS,
-    INCREMENT,
-    SUBTRACT
+    FETCH_COUNTER_SUCCESS, GET_TASK,
+    INCREMENT, REMOVE_TASK,
+    SUBTRACT, UPDATE_TASK
 } from "../constanst/types";
 import axios from "../axios"
 
@@ -79,4 +79,16 @@ export const decrementCounterAPI = () => {
             })
         })
     }
+}
+
+export const updateTask = (id) => {
+    return { type: UPDATE_TASK, payload: id }
+}
+
+export const addTask = (task) => {
+    return { type: ADD_TASK, payload: task }
+}
+
+export const removeTask = (id) => {
+    return { type: REMOVE_TASK, payload: id }
 }

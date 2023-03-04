@@ -1,12 +1,21 @@
-import {ADD_COUNTER, CHANGE_COLOR, DECREMENT, FETCH_COUNTER_SUCCESS, INCREMENT, SUBTRACT} from "../constanst/types";
+import {
+    ADD_COUNTER,
+    ADD_TASK,
+    CHANGE_COLOR,
+    DECREMENT,
+    FETCH_COUNTER_SUCCESS,
+    INCREMENT, REMOVE_TASK,
+    SUBTRACT, UPDATE_TASK
+} from "../constanst/types";
 
 const initialState = {
     counter: 0,
-    statusColor: false
+    statusColor: false,
+    tasks: []
 }
 
 const reducer = (state = initialState, action) => {
-    console.log(action);
+    console.log(action.payload?.title)
     switch (action.type){
         case INCREMENT: {
             return {
@@ -42,6 +51,28 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 counter: state.counter = action.counter
+            }
+        }
+        case ADD_TASK: {
+            return {
+               tasks: [...state.tasks, action.payload]
+            }
+        }
+        case REMOVE_TASK: {
+            return {
+                ...state,
+                tasks: state.tasks.filter(item => item.id !== action.payload)
+            }
+        }
+        case UPDATE_TASK: {
+            return {
+                ...state,
+                tasks: state.tasks.map(item => {
+                    if(item.id === action.payload){
+                        item.statusTask = true
+                    }
+
+                })
             }
         }
         default:
