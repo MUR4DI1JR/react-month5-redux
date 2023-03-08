@@ -5,8 +5,6 @@ import {useSelector} from "react-redux";
 const Tasks = () => {
     const tasks = useSelector(state => state.tasks);
 
-    console.log(tasks);
-
     if (tasks.length === 0){
         return <p className="text-center">нету задачи</p>
     }
@@ -16,7 +14,7 @@ const Tasks = () => {
             <h1 className="text-[25px] text-center">Tasks</h1>
             {
                 tasks.map(item => {
-                    return <Task title={item.title} id={item.id} statusTask={item.statusTask}/>
+                    return <Task key={item.id} title={item.title} id={item.id} statusTask={item.statusTask}/>
                 })
             }
         </div>

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch} from "react-redux";
-import {addTask} from "../../redux/action";
+import {createTask} from "../../redux/action";
 
 const TaskForm = () => {
     const tasks = [];
@@ -28,7 +28,7 @@ const TaskForm = () => {
             statusTask: false
         }
 
-        dispatch(addTask(task))
+        dispatch(createTask(task))
         setTitle("")
     }
 
@@ -46,3 +46,13 @@ const TaskForm = () => {
 };
 
 export default TaskForm;
+
+// return {
+//     ...state,
+//     tasks: state.tasks.map(task => {
+//         if(task.id === action.payload){
+//             return {...task, statusTask: !state.tasks.statusTask}
+//         }
+//         return task
+//     })
+// }

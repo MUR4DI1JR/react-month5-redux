@@ -3,7 +3,7 @@ import {
     ADD_TASK,
     CHANGE_COLOR,
     DECREMENT,
-    FETCH_COUNTER_SUCCESS,
+    FETCH_COUNTER_SUCCESS, GET_TASKS,
     INCREMENT, REMOVE_TASK,
     SUBTRACT, UPDATE_TASK
 } from "../constanst/types";
@@ -15,7 +15,6 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
-    console.log(action.payload?.title)
     switch (action.type){
         case INCREMENT: {
             return {
@@ -68,11 +67,17 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 tasks: state.tasks.map(item => {
-                    if(item.id === action.payload){
-                        item.statusTask = true
+                    if(item.id === action.payload.id){
+                        return {...item, statusTask: action.payload.status}
                     }
-
+                    return item;
                 })
+            }
+        }
+        case GET_TASKS: {
+            return {
+                ...state,
+                tasks: action.payload
             }
         }
         default:

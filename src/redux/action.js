@@ -1,11 +1,11 @@
 import {
     ADD_COUNTER, ADD_TASK,
     CHANGE_COLOR,
-    DECREMENT, FETCH_COUNTER_ERROR,
+    DECREMENT, ERROR_TASKS, FETCH_COUNTER_ERROR,
     FETCH_COUNTER_REQUEST,
-    FETCH_COUNTER_SUCCESS, GET_TASK,
-    INCREMENT, REMOVE_TASK,
-    SUBTRACT, UPDATE_TASK
+    FETCH_COUNTER_SUCCESS, GET_TASK, GET_TASKS,
+    INCREMENT, REMOVE_TASK, REMOVE_TASK_API,
+    SUBTRACT, TASKS_REQUEST, UPDATE_TASK, UPDATE_TASK_STATUS
 } from "../constanst/types";
 import axios from "../axios"
 
@@ -81,8 +81,8 @@ export const decrementCounterAPI = () => {
     }
 }
 
-export const updateTask = (id) => {
-    return { type: UPDATE_TASK, payload: id }
+export const updateTask = (id, status) => {
+    return { type: UPDATE_TASK, payload: {id, status} }
 }
 
 export const addTask = (task) => {
@@ -91,4 +91,54 @@ export const addTask = (task) => {
 
 export const removeTask = (id) => {
     return { type: REMOVE_TASK, payload: id }
+}
+
+export const tasksRequest = () => {
+    return { type: TASKS_REQUEST}
+}
+
+export const getTasks = (tasks) => {
+    return { type: GET_TASKS, payload: tasks}
+}
+
+export const errorTasks = () => {
+    return { type : ERROR_TASKS}
+}
+
+export const getTasksApi = () => {
+    return dispatch => {
+        dispatch(tasksRequest());
+        axios.get('/counter').then(res => {
+            dispatch(getTasks(res.data))
+        }, error => {
+            dispatch(errorTasks())
+        })
+    }
+}
+
+
+export const removeTaskApi = (id) => {
+    return dispatch => {
+        dispatch(removeTask(id))
+        axios.delete(`/counter/${id}`).then(() =>{
+            console.log("delete task")
+        })
+    }
+}
+
+export const createTask = (task) => {
+    return dispatch => {
+        axios.post('/counter', task).then(() => {
+            dispatch(getTasksApi());
+        })
+    }
+}
+
+export const updateTaskStatus = (id, status) =>{
+    return dispatch => {
+        dispatch(updateTask(id, status));
+        axios.put(`/counter/${id}`, {statusTask: status}).then(() => {
+            console.log("change status");
+        })
+    }
 }
